@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yaojiafeng.web.dao.AppRankDao" >
+  <resultMap id="BaseResultMap" type="com.yaojiafeng.web.domain.AppRank" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="time_dimension" property="timeDimension" jdbcType="INTEGER" />
+    <result column="time_value" property="timeValue" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="rank" property="rank" jdbcType="INTEGER" />
+    <result column="app_name" property="appName" jdbcType="VARCHAR" />
+    <result column="coverage" property="coverage" jdbcType="DOUBLE" />
+    <result column="active_rate" property="activeRate" jdbcType="DOUBLE" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_person" property="createPerson" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_person" property="updatePerson" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, time_dimension, time_value, type_id, type_name, rank, app_name, coverage, active_rate, 
+    create_time, create_person, update_time, update_person
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yaojiafeng.web.domain.AppRankConditions" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from app_rank
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from app_rank
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from app_rank
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yaojiafeng.web.domain.AppRankConditions" >
+    delete from app_rank
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yaojiafeng.web.domain.AppRank" useGeneratedKeys="true" keyProperty="id" >
+    insert into app_rank (time_dimension, time_value, type_id, 
+      type_name, rank, app_name, 
+      coverage, active_rate, create_time, 
+      create_person, update_time, update_person
+      )
+    values (#{timeDimension,jdbcType=INTEGER}, #{timeValue,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
+      #{typeName,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, #{appName,jdbcType=VARCHAR}, 
+      #{coverage,jdbcType=DOUBLE}, #{activeRate,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createPerson,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updatePerson,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yaojiafeng.web.domain.AppRank" useGeneratedKeys="true" keyProperty="id" >
+    insert into app_rank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="timeDimension != null" >
+        time_dimension,
+      </if>
+      <if test="timeValue != null" >
+        time_value,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="typeName != null" >
+        type_name,
+      </if>
+      <if test="rank != null" >
+        rank,
+      </if>
+      <if test="appName != null" >
+        app_name,
+      </if>
+      <if test="coverage != null" >
+        coverage,
+      </if>
+      <if test="activeRate != null" >
+        active_rate,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createPerson != null" >
+        create_person,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updatePerson != null" >
+        update_person,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="timeDimension != null" >
+        #{timeDimension,jdbcType=INTEGER},
+      </if>
+      <if test="timeValue != null" >
+        #{timeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="rank != null" >
+        #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="coverage != null" >
+        #{coverage,jdbcType=DOUBLE},
+      </if>
+      <if test="activeRate != null" >
+        #{activeRate,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createPerson != null" >
+        #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatePerson != null" >
+        #{updatePerson,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yaojiafeng.web.domain.AppRankConditions" resultType="java.lang.Integer" >
+    select count(*) from app_rank
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update app_rank
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeDimension != null" >
+        time_dimension = #{record.timeDimension,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeValue != null" >
+        time_value = #{record.timeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null" >
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeName != null" >
+        type_name = #{record.typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rank != null" >
+        rank = #{record.rank,jdbcType=INTEGER},
+      </if>
+      <if test="record.appName != null" >
+        app_name = #{record.appName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coverage != null" >
+        coverage = #{record.coverage,jdbcType=DOUBLE},
+      </if>
+      <if test="record.activeRate != null" >
+        active_rate = #{record.activeRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createPerson != null" >
+        create_person = #{record.createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatePerson != null" >
+        update_person = #{record.updatePerson,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update app_rank
+    set id = #{record.id,jdbcType=INTEGER},
+      time_dimension = #{record.timeDimension,jdbcType=INTEGER},
+      time_value = #{record.timeValue,jdbcType=VARCHAR},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      type_name = #{record.typeName,jdbcType=VARCHAR},
+      rank = #{record.rank,jdbcType=INTEGER},
+      app_name = #{record.appName,jdbcType=VARCHAR},
+      coverage = #{record.coverage,jdbcType=DOUBLE},
+      active_rate = #{record.activeRate,jdbcType=DOUBLE},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_person = #{record.createPerson,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_person = #{record.updatePerson,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yaojiafeng.web.domain.AppRank" >
+    update app_rank
+    <set >
+      <if test="timeDimension != null" >
+        time_dimension = #{timeDimension,jdbcType=INTEGER},
+      </if>
+      <if test="timeValue != null" >
+        time_value = #{timeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null" >
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="rank != null" >
+        rank = #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="appName != null" >
+        app_name = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="coverage != null" >
+        coverage = #{coverage,jdbcType=DOUBLE},
+      </if>
+      <if test="activeRate != null" >
+        active_rate = #{activeRate,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createPerson != null" >
+        create_person = #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatePerson != null" >
+        update_person = #{updatePerson,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yaojiafeng.web.domain.AppRank" >
+    update app_rank
+    set time_dimension = #{timeDimension,jdbcType=INTEGER},
+      time_value = #{timeValue,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      type_name = #{typeName,jdbcType=VARCHAR},
+      rank = #{rank,jdbcType=INTEGER},
+      app_name = #{appName,jdbcType=VARCHAR},
+      coverage = #{coverage,jdbcType=DOUBLE},
+      active_rate = #{activeRate,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_person = #{createPerson,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_person = #{updatePerson,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
