@@ -11,6 +11,7 @@
 
     <artifactId>webmagic-web</artifactId>
 
+    <packaging>jar</packaging>
 
     <dependencies>
         <!-- Spring Boot web依赖 -->
@@ -61,29 +62,43 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.yaojiafeng.web.Application</mainClass>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>filtered-jar-with-deps</id>
-                        <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>repackage</goal>
                         </goals>
-                        <configuration>
-                            <descriptor>src/main/resources/assemblies/filtered-jar-with-deps.xml</descriptor>
-                            <appendAssemblyId>false</appendAssemblyId>
-                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.yaojiafeng.web.Application</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
             </plugin>
+            <!--<plugin>-->
+            <!--<artifactId>maven-assembly-plugin</artifactId>-->
+            <!--<version>2.3</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>filtered-jar-with-deps</id>-->
+            <!--<phase>package</phase>-->
+            <!--<goals>-->
+            <!--<goal>single</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+            <!--<descriptor>src/main/resources/assemblies/filtered-jar-with-deps.xml</descriptor>-->
+            <!--<appendAssemblyId>false</appendAssemblyId>-->
+            <!--</configuration>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--<configuration>-->
+            <!--<archive>-->
+            <!--<manifest>-->
+            <!--<mainClass>com.yaojiafeng.web.Application</mainClass>-->
+            <!--</manifest>-->
+            <!--</archive>-->
+            <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
 
     </build>
