@@ -135,4 +135,23 @@ public class AppRank implements Serializable {
     public void setUpdatePerson(String updatePerson) {
         this.updatePerson = updatePerson;
     }
+
+    @Override
+    public String toString() {
+        return "AppRank{" +
+                "id=" + id +
+                ", timeDimension=" + timeDimension +
+                ", timeValue='" + timeValue + '\'' +
+                ", typeId=" + typeId +
+                ", typeName='" + typeName + '\'' +
+                ", rank=" + rank +
+                ", appName='" + appName + '\'' +
+                ", coverage=" + coverage +
+                ", activeRate=" + activeRate +
+                ", createTime=" + createTime +
+                ", createPerson='" + createPerson + '\'' +
+                ", updateTime=" + updateTime +
+                ", updatePerson='" + updatePerson + '\'' +
+                '}';
+    }
 }
