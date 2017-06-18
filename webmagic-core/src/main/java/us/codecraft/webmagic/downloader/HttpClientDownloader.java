@@ -189,6 +189,7 @@ public class HttpClientDownloader extends AbstractDownloader {
         page.setUrl(new PlainText(request.getUrl()));
         page.setRequest(request);
         page.setStatusCode(httpResponse.getStatusLine().getStatusCode());
+        page.setTask(task);
         return page;
     }
 

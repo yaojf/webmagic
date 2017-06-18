@@ -44,6 +44,8 @@ public class Page {
 
     private List<Request> targetRequests = new ArrayList<Request>();
 
+    private Task task;
+
     public Page() {
     }
 
@@ -208,6 +210,14 @@ public class Page {
     public Page setRawText(String rawText) {
         this.rawText = rawText;
         return this;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     @Override

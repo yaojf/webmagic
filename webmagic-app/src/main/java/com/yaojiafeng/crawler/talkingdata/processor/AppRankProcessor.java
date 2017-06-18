@@ -5,15 +5,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.yaojiafeng.crawler.talkingdata.enum2.DateType;
 import com.yaojiafeng.crawler.talkingdata.model.DateSection;
 import com.yaojiafeng.crawler.talkingdata.model.Type;
+import com.yaojiafeng.web.dao.AppRankDao;
 import com.yaojiafeng.web.domain.AppRank;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.ibatis.plugin.Interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import us.codecraft.webmagic.Page;
-import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.DispatcherServlet;
+import us.codecraft.webmagic.*;
+import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.scheduler.QueueScheduler;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 
@@ -51,6 +55,8 @@ public class AppRankProcessor implements PageProcessor {
             .me()
             .setDomain("mi.talkingdata.com")
             .setSleepTime(1000)
+            .setTimeOut(10000)
+            .setRetryTimes(3)
             .setUserAgent(
                     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
 
@@ -116,7 +122,7 @@ public class AppRankProcessor implements PageProcessor {
                 }
                 //去重
                 pageSet.addAll(urls);
-                page.addTargetRequest(urls.get(0));
+                page.addTargetRequests(new ArrayList<>(pageSet));
             }
 
         } else {
@@ -165,7 +171,16 @@ public class AppRankProcessor implements PageProcessor {
                 }
             }
 
-            System.out.println(appRankList.get(0));
+            WebApplicationContext webApplicationContext = (WebApplicationContext) ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+
+            AppRankDao appRankDao = webApplicationContext.getBean(AppRankDao.class);
+
+
+
+            //没有任务结束
+            if (((QueueScheduler) ((Spider) page.getTask()).getScheduler()).getLeftRequestsCount(null) == 0) {
+                ((Spider) page.getTask()).stop();
+            }
         }
 
     }
@@ -194,7 +209,12 @@ public class AppRankProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider.create(new AppRankProcessor()).addUrl(ROOT_URL).thread(1)
+        Spider.create(new AppRankProcessor()).addUrl(ROOT_URL).addPipeline(new Pipeline() {
+            @Override
+            public void process(ResultItems resultItems, Task task) {
+
+            }
+        }).thread(Runtime.getRuntime().availableProcessors())
                 .run();
 
     }

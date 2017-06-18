@@ -38,6 +38,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
 
