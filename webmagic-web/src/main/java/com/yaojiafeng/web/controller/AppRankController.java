@@ -2,7 +2,6 @@ package com.yaojiafeng.web.controller;
 
 import com.yaojiafeng.crawler.talkingdata.processor.AppRankProcessor;
 import com.yaojiafeng.web.common.Results;
-import com.yaojiafeng.web.dao.AppRankDao;
 import com.yaojiafeng.web.domain.AppRank;
 import com.yaojiafeng.web.service.AppRankService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.DispatcherServlet;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.Task;
