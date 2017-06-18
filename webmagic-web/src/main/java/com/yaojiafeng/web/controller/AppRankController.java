@@ -43,18 +43,23 @@ public class AppRankController {
     @ResponseBody
     public Results crawler(ModelMap modelMap) {
 
-        Spider.create(new AppRankProcessor()).addUrl(AppRankProcessor.ROOT_URL).addPipeline(new Pipeline() {
+        new Thread(new Runnable(){
             @Override
-            public void process(ResultItems resultItems, Task task) {
+            public void run() {
+                Spider.create(new AppRankProcessor()).addUrl(AppRankProcessor.ROOT_URL).addPipeline(new Pipeline() {
+                    @Override
+                    public void process(ResultItems resultItems, Task task) {
 
-                List<AppRank> appRankList = (List<AppRank>) resultItems.get(AppRankProcessor.RESULT);
+                        List<AppRank> appRankList = (List<AppRank>) resultItems.get(AppRankProcessor.RESULT);
 
-                if (appRankList != null && appRankList.size() > 0) {
-                    appRankService.insertBatch(appRankList);
-                }
+                        if (appRankList != null && appRankList.size() > 0) {
+                            appRankService.insertBatch(appRankList);
+                        }
+                    }
+                }).thread(Runtime.getRuntime().availableProcessors()).run();
             }
-        }).thread(Runtime.getRuntime().availableProcessors())
-                .run();
+        }).start();
+
 
         return new Results(0, "success", null);
     }
