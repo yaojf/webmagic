@@ -1,11 +1,13 @@
 package com.yaojiafeng.web.service.impl;
 
+import com.yaojiafeng.web.common.Constants;
 import com.yaojiafeng.web.dao.AppRankDao;
 import com.yaojiafeng.web.domain.AppRank;
 import com.yaojiafeng.web.service.AppRankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,5 +23,17 @@ public class AppRankServiceImpl implements AppRankService {
     @Override
     public List<AppRank> findAll() {
         return appRankDao.selectByExample(null);
+    }
+
+    @Override
+    public int insertBatch(List<AppRank> appRankList) {
+        for (AppRank appRank : appRankList) {
+            Date date = new Date();
+            appRank.setCreateTime(date);
+            appRank.setCreatePerson(Constants.SYSTEM_PERSON);
+            appRank.setUpdateTime(date);
+            appRank.setUpdatePerson(Constants.SYSTEM_PERSON);
+        }
+        return appRankDao.insertBatch(appRankList);
     }
 }

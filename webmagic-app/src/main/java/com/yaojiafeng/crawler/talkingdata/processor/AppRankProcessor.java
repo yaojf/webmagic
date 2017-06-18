@@ -10,10 +10,6 @@ import com.yaojiafeng.web.domain.AppRank;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.DispatcherServlet;
 import us.codecraft.webmagic.*;
 import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -48,6 +44,9 @@ public class AppRankProcessor implements PageProcessor {
     public static final String MAX_MONTH = "maxMonth";
     public static final String MIN_Q = "minQ";
     public static final String MAX_Q = "maxQ";
+
+
+    public static final String RESULT = "result";
 
     private DateSection dateSection = new DateSection();
 
@@ -171,11 +170,8 @@ public class AppRankProcessor implements PageProcessor {
                 }
             }
 
-            WebApplicationContext webApplicationContext = (WebApplicationContext) ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-
-            AppRankDao appRankDao = webApplicationContext.getBean(AppRankDao.class);
-
-
+            //设置结果
+            page.putField(RESULT, appRankList);
 
             //没有任务结束
             if (((QueueScheduler) ((Spider) page.getTask()).getScheduler()).getLeftRequestsCount(null) == 0) {
@@ -209,10 +205,15 @@ public class AppRankProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider.create(new AppRankProcessor()).addUrl(ROOT_URL).addPipeline(new Pipeline() {
+        Spider.create(new AppRankProcessor()).addUrl(AppRankProcessor.ROOT_URL).addPipeline(new Pipeline() {
             @Override
             public void process(ResultItems resultItems, Task task) {
 
+                List<AppRank> appRankList = (List<AppRank>) resultItems.get(RESULT);
+
+                if (appRankList != null && appRankList.size() > 0) {
+                    System.out.println(appRankList.get(0));
+                }
             }
         }).thread(Runtime.getRuntime().availableProcessors())
                 .run();

@@ -93,7 +93,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from app_rank
     where id = #{id,jdbcType=INTEGER}
@@ -329,4 +329,23 @@
       update_person = #{updatePerson,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <insert id="insertBatch" parameterType="list" useGeneratedKeys="true" keyProperty="id" >
+    insert into app_rank (time_dimension, time_value, type_id,
+    type_name, rank, app_name,
+    coverage, active_rate, create_time,
+    create_person, update_time, update_person
+    )
+    values
+    <trim prefix="" suffix="" prefixOverrides="," >
+    <foreach collection="list" item="item" >
+    ,(#{item.timeDimension,jdbcType=INTEGER}, #{item.timeValue,jdbcType=VARCHAR}, #{item.typeId,jdbcType=INTEGER},
+    #{item.typeName,jdbcType=VARCHAR}, #{item.rank,jdbcType=INTEGER}, #{item.appName,jdbcType=VARCHAR},
+    #{item.coverage,jdbcType=DOUBLE}, #{item.activeRate,jdbcType=DOUBLE}, #{item.createTime,jdbcType=TIMESTAMP},
+    #{item.createPerson,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updatePerson,jdbcType=VARCHAR}
+    )
+    </foreach>
+    </trim>
+  </insert>
 </mapper>

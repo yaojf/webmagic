@@ -10,4 +10,6 @@ import java.util.List;
 public interface AppRankService {
 
     List<AppRank> findAll();
+
+    int insertBatch(List<AppRank> appRankList);
 }

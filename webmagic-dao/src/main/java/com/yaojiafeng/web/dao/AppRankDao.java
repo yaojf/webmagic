@@ -28,4 +28,6 @@ public interface AppRankDao {
     int updateByPrimaryKeySelective(AppRank record);
 
     int updateByPrimaryKey(AppRank record);
+
+    int insertBatch(List<AppRank> appRankList);
 }
